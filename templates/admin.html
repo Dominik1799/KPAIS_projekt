@@ -1,0 +1,28 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Admin interface{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 style="text-align: center">Pending transactions</h1>
+    <table class="table table-striped">
+        <tr>
+          <th>Old owner</th>
+          <th>New owner</th>
+          <th>Creation date</th>
+          <th>Vehicle</th>
+          <th>Price</th>
+          <th style="text-align: center;" colspan="2">Action</th>
+        </tr>
+          {% for item in transactions %}
+              <TR>
+                  <TD class="c3">{{item[1].name}}</TD>
+                  <TD class="c3">{{item[2].name}}</TD>
+                  <TD class="c3">{{item[0].date}}</TD>
+                  <TD class="c3">{{item[4].make ~ " " ~ item[4].model}}</TD>
+                  <TD class="c3">{{item[0].price}}</TD>
+                  <TD style="text-align: center;" class="c3"><form method="post"><button name="submit" type="submit" class="btn btn-success" value="approve|{{ item[0].id }}">Approve</button></form></TD>
+                  <TD style="text-align: center;" class="c3"><form method="post"><button name="submit" type="submit" class="btn btn-danger" value="deny|{{ item[0].id }}">Deny</button></form></TD>
+              </TR>
+          {% endfor %}
+      </table>
+</div>
+{% endblock %}

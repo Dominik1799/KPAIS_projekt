@@ -1,0 +1,35 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Vehicle detail{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 style="text-align: center">Vehicle detial</h1>
+
+    <h2>Info</h2>
+    <br>
+    <h3><b>Make: </b> {{ details.make }}</h3>
+    <h3><b>Model: </b> {{ details.model }}</h3>
+    <h3><b>Year: </b> {{ details.year }}</h3>
+    <h3><b>Category: </b> {{ details.category }}</h3>
+    <br>
+    <br>
+    <h2>Ownership history</h2>
+    <table class="table table-striped">
+        <tr>
+          <th>Owner name</th>
+          <th>Date</th>
+          <th>City</th>
+          <th>Type</th>
+          <th>Price</th>
+        </tr>
+          {% for item in transactions %}
+              <TR>
+                  <TD class="c3">{{item[1].name}}</TD>
+                  <TD class="c3">{{item[2].date}}</TD>
+                  <TD class="c3">{{item[2].city}}</TD>
+                  <TD class="c3">{{item[2].type}}</TD>
+                  <TD class="c3">{{item[2].price}}</TD>
+              </TR>
+          {% endfor %}
+      </table>
+</div>
+{% endblock %}
