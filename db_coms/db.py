@@ -6,7 +6,7 @@ from sqlalchemy.orm import aliased
 import db_coms.data_reading as data_reading
 import os
 import db_coms.data_writing as data_writing
-import db_coms.data_reading_unsafe as data_reading_unsafe
+import db_coms.data_reading_safety_fix as data_reading_safety_fix
 
 class DB_connector:
     # static variables
@@ -40,12 +40,17 @@ class DB_connector:
 
     # returns a list of tuples. First in each tuple is car, then it's owner
     def get_all_cars(self, filter_make=None, filter_year_from=None, filter_year_to=None):
-        if os.environ.get("SAFE") == "1":
-            print("Communicating safely with the DB")
-            return data_reading.get_all_cars(DB_connector.Car, DB_connector.Owner, DB_connector.Ownership, DB_connector.session,  filter_make, filter_year_from, filter_year_to)
+        if os.environ.get("SAFE_SEARCH") == "1":
+            if os.environ.get("ORM_SEARCH") == "1":
+                print("Communicating safely with the DB - ORM")
+                return data_reading.get_all_cars(DB_connector.Car, DB_connector.Owner, DB_connector.Ownership, DB_connector.session,  filter_make, filter_year_from, filter_year_to)
+            else:
+                print("Communicating safely with the DB - parameterized  queries")
+                return data_reading_safety_fix.get_all_cars_safe(filter_make, filter_year_from, filter_year_to)
         else:
-            print("Communicating !!unsafely!! with the db")
-            return data_reading_unsafe.get_all_cars_unsafe(filter_make, filter_year_from, filter_year_to)
+            print("Communicating !!unsafely!! with the DB")
+            return data_reading_safety_fix.get_all_cars_unsafe(filter_make, filter_year_from, filter_year_to)
+                
 
     def get_car_details(self, carID):
         return data_reading.get_car_details(DB_connector.Car, DB_connector.session, carID)

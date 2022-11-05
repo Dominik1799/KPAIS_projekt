@@ -34,7 +34,8 @@ def index():
 
 @app.route("/browse", methods=["GET", "POST"])
 def browse():
-    session["user"] = db_connector.get_user(LOGGED_IN_USER_ID).name
+    # session["user"] = db_connector.get_user(LOGGED_IN_USER_ID).name
+    session["user"] = "Jozko"
     if request.method == "POST":
         if not request.form["yearTo"] and not request.form["make"] and not request.form["yearFrom"]:
             print("Not enough arguments")
